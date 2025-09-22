@@ -1,0 +1,20 @@
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WorkShopAPI.Domain.Context;
+using WorkShopAPI.Domain.DTOs;
+
+namespace WorkShopAPI.Infrastructure.AutoMappers
+{
+    public class EvaluacionProfile : Profile
+    {
+        public EvaluacionProfile()
+        {
+            CreateMap<EvaluacionDto, Evaluacion>()
+                .ReverseMap();
+        }
+    }
+}
