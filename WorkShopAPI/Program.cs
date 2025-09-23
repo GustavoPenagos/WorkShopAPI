@@ -1,5 +1,5 @@
 using WorkShopAPI.Domain.Utils;
-using WorkShopAPI.RestService.Dependency_Injection;
+using WorkShopAPI.RestService.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 

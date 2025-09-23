@@ -5,9 +5,7 @@ namespace WorkShopAPI.Domain.Context;
 
 public partial class Mecanico
 {
-    public int MecanicoId { get; set; }
-
-    public int VehiculoId { get; set; }
+    public int Documento { get; set; }
 
     public string Nombre { get; set; } = null!;
 
@@ -16,4 +14,6 @@ public partial class Mecanico
     public string Especialidad { get; set; } = null!;
 
     public int Estado { get; set; }
+
+    public virtual ICollection<CitaServicio> CitaServicios { get; set; } = new List<CitaServicio>();
 }

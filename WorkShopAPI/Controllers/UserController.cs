@@ -18,8 +18,8 @@ namespace WorkShopAPI.RestService.Controllers
         {
             try
             {
-                var token = Request.Headers["Encode"].ToString().IsValid();
-                if (string.IsNullOrEmpty(token))
+                var token = Request.Headers["Encode"].ToString();
+                if (!token.IsValid())
                 {
                     return _response.Message(400, MessageGenerics.TokenNoValido, null);
                 }
@@ -27,7 +27,7 @@ namespace WorkShopAPI.RestService.Controllers
                 {
                     return _response.Message(200, MessageGenerics.Success, true);
                 }
-                return _response.Message(400, MessageGenerics.Fail);
+                return _response.Message(400, MessageGenerics.Failed);
             }
             catch (Exception ex)
             {

@@ -10,8 +10,7 @@ namespace WorkShopAPI.Domain.DTOs
 
         public string Modelo { get; set; } = null!;
 
-        public string Año { get; set; } = null!;
-
         public string Color { get; set; } = null!;
+
     }
 }

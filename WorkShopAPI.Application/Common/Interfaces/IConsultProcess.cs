@@ -9,8 +9,12 @@ namespace WorkShopAPI.Application.Common.Interfaces
 {
     public interface IConsultProcess
     {
-        Task<Response> ConsultVehicle(string? placa = "", string? mecamoco = "", string? documento = "");
-        Task<Response> ConsultPlcas();
+        Task<Response> ConsultVehicleAsync(string? placa = "", string? mecamoco = "", string? documento = "");
+        Task<Response> ConsultPlcasAsync();
+        Task<Response> ConsultClientsAsync();
+        Task<Response> ConsultMechanicAsync();
+        Task<Response> ConsultCitaServicioAsync();
+        Task<Response> ConsultProductoAsync();
 
     }
 }

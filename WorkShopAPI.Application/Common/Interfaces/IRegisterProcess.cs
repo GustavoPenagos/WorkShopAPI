@@ -5,6 +5,8 @@ namespace WorkShopAPI.Application.Common.Interfaces
 {
     public interface IRegisterProcess
     {
-        Task<Response> RegisterClientAsync(ClienteBase clienteBase, string token);
+        Task<Response> RegisterAsync<T>(object dataDto);
+        Task<Response> RegisterClientAsync(ClienteDto clienteDto, string token);
+        Task<Response> RegisterValoracionAsync(RequestEvaluacion requestEvaluacion);
     }
 }

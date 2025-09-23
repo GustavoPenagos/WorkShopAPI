@@ -7,13 +7,17 @@ namespace WorkShopAPI.Domain.DTOs {
 
         public string Apellidos { get; set; } = null!;
 
-        public string Documento { get; set; } = null!;
+        public int Documento { get; set; }
 
         public string Correo { get; set; } = null!;
 
         public string Celular { get; set; } = null!;
 
-        public string? PresupuestoMaximo { get; set; }
+        public decimal PresupuestoMaximo { get; set; }
+
+        public virtual IList<UsuarioDto> Usuarios { get; set; } = [];
+
+        public virtual IList<VehiculoDto> Vehiculos { get; set; } = [];
 
     }
 }

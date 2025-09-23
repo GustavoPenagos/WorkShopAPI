@@ -62,8 +62,11 @@ namespace WorkShopAPI.Domain.Utils
             return Convert.ToBase64String(resultado);
         }
 
-        public static string IsValid(this string encode)
-        => !string.IsNullOrEmpty(encode) ? encode.Decrypt() : "";
+        public static bool IsValid(this string encode)
+            => !string.IsNullOrEmpty(encode) && encode.Decrypt() != null;
+            
+        
+         
 
         public static string GeneratePassword(this string input)
         {

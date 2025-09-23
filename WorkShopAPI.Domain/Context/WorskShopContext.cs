@@ -62,14 +62,23 @@ public partial class WorskShopContext : DbContext
             entity.Property(e => e.FechaProgramada).HasColumnType("datetime");
             entity.Property(e => e.FechaSolicitud).HasColumnType("datetime");
             entity.Property(e => e.MecanicoId).HasColumnName("MecanicoID");
-            entity.Property(e => e.VehiculoId).HasColumnName("VehiculoID");
+            entity.Property(e => e.Placa)
+                .HasMaxLength(6)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Mecanico).WithMany(p => p.CitaServicios)
+                .HasForeignKey(d => d.MecanicoId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CitaServicio_Mecanico");
         });
 
         modelBuilder.Entity<Cliente>(entity =>
         {
+            entity.HasKey(e => e.Documento);
+
             entity.ToTable("Cliente");
 
-            entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
+            entity.Property(e => e.Documento).ValueGeneratedNever();
             entity.Property(e => e.Apellidos)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -77,13 +86,10 @@ public partial class WorskShopContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Correo).IsUnicode(false);
-            entity.Property(e => e.Documento)
-                .HasMaxLength(30)
-                .IsUnicode(false);
             entity.Property(e => e.Nombres)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.PresupuestoMaximo).IsUnicode(false);
+            entity.Property(e => e.PresupuestoMaximo).HasColumnType("decimal(18, 2)");
         });
 
         modelBuilder.Entity<Evaluacion>(entity =>
@@ -118,16 +124,31 @@ public partial class WorskShopContext : DbContext
             entity.ToTable("FotografiaVehiculo");
 
             entity.Property(e => e.FotoId).HasColumnName("FotoID");
+            entity.Property(e => e.EvaluacionId).HasColumnName("EvaluacionID");
             entity.Property(e => e.FechaCarga).HasColumnType("datetime");
             entity.Property(e => e.Foto).IsUnicode(false);
-            entity.Property(e => e.VehiculoId).HasColumnName("VehiculoID");
+            entity.Property(e => e.Placa)
+                .HasMaxLength(6)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Evaluacion).WithMany(p => p.FotografiaVehiculos)
+                .HasForeignKey(d => d.EvaluacionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_FotografiaVehiculo_Evaluacion");
+
+            entity.HasOne(d => d.PlacaNavigation).WithMany(p => p.FotografiaVehiculos)
+                .HasForeignKey(d => d.Placa)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_FotografiaVehiculo_FotografiaVehiculo1");
         });
 
         modelBuilder.Entity<Mecanico>(entity =>
         {
+            entity.HasKey(e => e.Documento);
+
             entity.ToTable("Mecanico");
 
-            entity.Property(e => e.MecanicoId).HasColumnName("MecanicoID");
+            entity.Property(e => e.Documento).ValueGeneratedNever();
             entity.Property(e => e.Apellidos)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -137,7 +158,6 @@ public partial class WorskShopContext : DbContext
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.VehiculoId).HasColumnName("VehiculoID");
         });
 
         modelBuilder.Entity<Repuesto>(entity =>
@@ -159,31 +179,45 @@ public partial class WorskShopContext : DbContext
 
             entity.Property(e => e.EvaluacionId).HasColumnName("EvaluacionID");
             entity.Property(e => e.RepuestoId).HasColumnName("RepuestoID");
+
+            entity.HasOne(d => d.Evaluacion).WithMany(p => p.RepuestoEvaluacions)
+                .HasForeignKey(d => d.EvaluacionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RepuestoEvaluacion_Evaluacion");
+
+            entity.HasOne(d => d.Repuesto).WithMany(p => p.RepuestoEvaluacions)
+                .HasForeignKey(d => d.RepuestoId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RepuestoEvaluacion_Repuesto");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario);
+            entity.HasKey(e => e.Usuario1);
 
             entity.ToTable("Usuario");
 
-            entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
-            entity.Property(e => e.Contrasenia).IsUnicode(false);
             entity.Property(e => e.Usuario1)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Usuario");
+            entity.Property(e => e.Contrasenia).IsUnicode(false);
+
+            entity.HasOne(d => d.DocumentoNavigation).WithMany(p => p.Usuarios)
+                .HasForeignKey(d => d.Documento)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Usuario_Cliente");
         });
 
         modelBuilder.Entity<Vehiculo>(entity =>
         {
+            entity.HasKey(e => e.Placa);
+
             entity.ToTable("Vehiculo");
 
-            entity.Property(e => e.VehiculoId).HasColumnName("VehiculoID");
-            entity.Property(e => e.Año)
-                .HasMaxLength(4)
+            entity.Property(e => e.Placa)
+                .HasMaxLength(6)
                 .IsUnicode(false);
-            entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
             entity.Property(e => e.Color)
                 .HasMaxLength(20)
                 .IsUnicode(false);
@@ -193,9 +227,11 @@ public partial class WorskShopContext : DbContext
             entity.Property(e => e.Modelo)
                 .HasMaxLength(10)
                 .IsUnicode(false);
-            entity.Property(e => e.Placa)
-                .HasMaxLength(6)
-                .IsUnicode(false);
+
+            entity.HasOne(d => d.DocumentoNavigation).WithMany(p => p.Vehiculos)
+                .HasForeignKey(d => d.Documento)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Vehiculo_Cliente");
         });
 
         OnModelCreatingPartial(modelBuilder);

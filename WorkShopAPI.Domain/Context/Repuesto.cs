@@ -10,4 +10,6 @@ public partial class Repuesto
     public string Nombre { get; set; } = null!;
 
     public decimal PrecioUnitario { get; set; }
+
+    public virtual ICollection<RepuestoEvaluacion> RepuestoEvaluacions { get; set; } = new List<RepuestoEvaluacion>();
 }

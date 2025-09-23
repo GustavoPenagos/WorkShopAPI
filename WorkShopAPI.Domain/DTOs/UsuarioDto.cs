@@ -1,4 +1,6 @@
-﻿namespace WorkShopAPI.Domain.DTOs
+﻿using WorkShopAPI.Domain.Context;
+
+namespace WorkShopAPI.Domain.DTOs
 {
     public class UsuarioDto
     {

@@ -14,4 +14,8 @@ public partial class RepuestoEvaluacion
     public int Cantidad { get; set; }
 
     public int CambioAdicional { get; set; }
+
+    public virtual Evaluacion Evaluacion { get; set; } = null!;
+
+    public virtual Repuesto Repuesto { get; set; } = null!;
 }

@@ -2,8 +2,12 @@
 {
     public class FotografiaVehiculoDto
     {
+        public string Placa { get; set; } = null!;
+
+        public int EvaluacionId { get; set; }
+
         public string Foto { get; set; } = null!;
 
-        public string? FechaCarga { get; set; }
+        public DateTime FechaCarga { get; set; }
     }
 }

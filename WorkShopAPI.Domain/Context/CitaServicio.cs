@@ -7,7 +7,9 @@ public partial class CitaServicio
 {
     public int CitaId { get; set; }
 
-    public int VehiculoId { get; set; }
+    public int MecanicoId { get; set; }
+
+    public string Placa { get; set; } = null!;
 
     public DateTime FechaSolicitud { get; set; }
 
@@ -15,5 +17,5 @@ public partial class CitaServicio
 
     public int Estado { get; set; }
 
-    public int? MecanicoId { get; set; }
+    public virtual Mecanico Mecanico { get; set; } = null!;
 }

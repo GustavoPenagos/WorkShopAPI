@@ -9,18 +9,11 @@ namespace WorkShopAPI.Application.Execute.Usuarios.Command
         private readonly IAutenticate _autenticate = autenticate;
         public async Task<bool> Login(string userData)
         {
-            try
+            var user = userData.Decrypt().Split(';');
+            var response = await _autenticate.Autenticate(user[0], user[1].Encrypt());
+            if (response.Body?.Result != null)
             {
-                var user = userData.Split(';');
-                var response = await _autenticate.Autenticate(user[0], user[1].GeneratePassword());
-                if (response.Body?.Result != null)
-                {
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
+                return true;
             }
             return false;
         }

@@ -5,10 +5,6 @@ namespace WorkShopAPI.Application.Common.Interfaces.Repositories.WorkShopDB
 {
     public interface IRegisterClient
     {
-        Task<ClienteBase> RegisterDBAsync(Cliente cliente, 
-            Usuario usuario, 
-            CitaServicio citaServicio, 
-            Vehiculo vehiculo,  
-            string token);
+        Task<bool> RegisterAsync<T>(T data);
     }
 }

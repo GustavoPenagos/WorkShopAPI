@@ -25,28 +25,108 @@ namespace WorkShopAPI.RestService.Controllers
                 {
                     return _response.Message(400, MessageGenerics.NotFound);
                 }
-                response = await _conults.ConsultVehicle(placa);
+                response = await _conults.ConsultVehicleAsync(placa);
                 
                 
             }
             catch (Exception ex)
             {
-                return _response.Message(400, MessageGenerics.Fail, ex.Message);
+                return _response.Message(400, MessageGenerics.Failed, ex.Message);
             }
             return response;
         }
 
+        /// <summary>
+        /// GetPlaca
+        /// </summary>
+        /// <returns>Modelo de response con los datos del vehiculo</returns>
         [HttpGet("GetPlaca")]
         public async Task<Response> GetPlaca()
         {
-            Response response = new();
+            Response response;
             try
             {
-                response = await _conults.ConsultPlcas();
+                response = await _conults.ConsultPlcasAsync();
             }
             catch (Exception ex)
             {
-                return _response.Message(400, MessageGenerics.Fail, ex.Message);
+                return _response.Message(400, MessageGenerics.Failed, ex.Message);
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// GetCliente
+        /// </summary>
+        /// <returns>Modelo de response con los datos del cliente</returns>
+        [HttpGet("GetCliente")]
+        public async Task<Response> GetCliente()
+        {
+            Response response;
+            try
+            {
+                response = await _conults.ConsultClientsAsync();
+            }
+            catch (Exception ex)
+            {
+                return _response.Message(400, ex.Message);                
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// GetMecanico
+        /// </summary>
+        /// <returns>Modelo de response con los datos del mecanico</returns>
+        [HttpGet("GetMecanico")]
+        public async Task<Response> GetMecanico()
+        {
+            Response response;
+            try
+            {
+                response = await _conults.ConsultMechanicAsync();
+            }
+            catch (Exception ex)
+            {
+                return _response.Message(400, ex.Message);
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Modelo de response con los datos del CitaServico</returns>
+        [HttpGet("GetCitaServicio")]
+        public async Task<Response> GetCitaServicio()
+        {
+            Response response;
+            try
+            {
+                response = await _conults.ConsultCitaServicioAsync();
+            }
+            catch (Exception ex)
+            {
+                return _response.Message(400, ex.Message);
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Modelo de response con los datos del CitaServico</returns>
+        [HttpGet("GetProducto")]
+        public async Task<Response> GetProducto()
+        {
+            Response response;
+            try
+            {
+                response = await _conults.ConsultProductoAsync();
+            }
+            catch (Exception ex)
+            {
+                return _response.Message(400, ex.Message);
             }
             return response;
         }

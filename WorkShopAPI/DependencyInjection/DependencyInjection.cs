@@ -12,7 +12,7 @@ using WorkShopAPI.Infrastructure.Execute.Repositories.Consult;
 using WorkShopAPI.Infrastructure.Execute.Repositories.LogIn;
 using WorkShopAPI.Infrastructure.Execute.Repositories.Register;
 
-namespace WorkShopAPI.RestService.Dependency_Injection
+namespace WorkShopAPI.RestService.DependencyInjection
 {
     public static class DependencyInjection
     {

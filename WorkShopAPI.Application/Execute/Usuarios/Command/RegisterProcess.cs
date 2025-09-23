@@ -16,19 +16,42 @@ namespace WorkShopAPI.Application.Execute.Usuarios.Command
         private readonly IMessageResponse _response = response;
         private readonly IRegisterClient _register = register;
 
-        public async Task<Response> RegisterClientAsync(ClienteBase clienteBase, string token)
+        public async Task<Response> RegisterClientAsync(ClienteDto clienteDto, string token)
         {
-            var register = await _register.RegisterDBAsync(
-                _mapper.Map<Cliente>(clienteBase.Cliente),
-                _mapper.Map<Usuario>(clienteBase.Usuario),
-                _mapper.Map<CitaServicio>(clienteBase.CitaServicio),
-                _mapper.Map<Vehiculo>(clienteBase.Vehiculo),
-                
-                token.GeneratePassword()
-            );
+            clienteDto.Usuarios.First().Contrasenia = token;
+            if(!await _register.RegisterAsync(_mapper.Map<Cliente>(clienteDto)))
+            {
+                return _response.Message(400, MessageGenerics.NotFound);
+            }
+            return _response.Message(200, MessageGenerics.Success, true);
+        }
 
+        public async Task<Response> RegisterAsync<T>(object dataDto)
+        {
+            if (!await _register.RegisterAsync(_mapper.Map<T>(dataDto)))
+            {
+                return _response.Message(400, MessageGenerics.NotFound);
+            }
+            return _response.Message(200, MessageGenerics.Success, true);
+        }
 
-            return _response.Message(200, MessageGenerics.Success, register);
+        public async Task<Response> RegisterValoracionAsync(RequestEvaluacion requestEvaluacion)
+        {
+           
+            if (!await _register.RegisterAsync(_mapper.Map<Evaluacion>(requestEvaluacion.Evaluacion)))
+            {
+                return _response.Message(400, MessageGenerics.NotFound);
+            }
+            if (!await _register.RegisterAsync(_mapper.Map<RepuestoEvaluacion>(requestEvaluacion.RuestoEvaluacion)))
+            {
+                return _response.Message(400, MessageGenerics.NotFound);
+            }
+            if (!await _register.RegisterAsync(_mapper.Map<FotografiaVehiculo>(requestEvaluacion.FotografiaVehiculo)))
+            {
+                return _response.Message(400, MessageGenerics.NotFound);
+            }
+
+            return _response.Message(200, MessageGenerics.Success, true);
         }
     }
 }
